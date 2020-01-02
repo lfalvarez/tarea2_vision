@@ -45,6 +45,10 @@ Esto nos sirve para calcular el AP y luego el mAP.
 A veces (dependiendo de un random) dibujamos un ejemplo donde se muestran la imagen de la query concatenada con las
 imágenes de prueba.
 
+Estas imagenes se ven así:
+
+![](https://github.com/lfalvarez/tarea2_vision/raw/master/ejemplos_no_normalizados/comparado_6_5029.jpg)
+
 ## El cálculo del mAP
 
 El mAP nos resultó en:
