@@ -30,8 +30,8 @@ def get_classes(dir):
     data = pd.read_csv(os.path.join(dir, 'classes.txt'), sep='\t', header=None, names=['clase', 'id'], usecols=['clase'])
     return data.to_dict(orient="dict")['clase']
 
-def imprimir_imagenes(distances, filename, i, relevant_counter, squarerootnormalization):
-    str_datadir = '../trabajo/png_w256'
+def imprimir_imagenes(distances, filename, i, relevant_counter, squarerootnormalization, imagesworkingdir):
+    str_datadir = '{imagesworkingdir}/png_w256'.format(imagesworkingdir=imagesworkingdir)
     ## esto imprime las fotitos concatenadas
     ## la primera es la de prueba y las que le siguen son la respuesta a la query
     r = np.random.random()
@@ -80,7 +80,7 @@ def distancias_ordenadas_a_imagen_de_test(test_feature, current_label, filename,
     distances = sorted_distances[:10]
     return distances, filename
 
-def calcula_distancia_a_todas_las_imagenes(test, training_data, squarerootnormalization):
+def calcula_distancia_a_todas_las_imagenes(test, training_data, squarerootnormalization, imagesworkingdir):
     ## Esta función calcula el mAP a todas las imagenes de test
     ## e imprime ejemplos de las querys.
     training_features = training_data['features']
@@ -114,7 +114,7 @@ def calcula_distancia_a_todas_las_imagenes(test, training_data, squarerootnormal
             ## elementos relevantes.
             AP = AP / relevant_counter
             sum_of_aps += AP
-        imprimir_imagenes(distances, filename, i, relevant_counter, squarerootnormalization)
+        imprimir_imagenes(distances, filename, i, relevant_counter, squarerootnormalization, imagesworkingdir)
     mAP = (sum_of_aps / len(test['features']))
     if squarerootnormalization:
         print("Con normalización")
@@ -137,6 +137,7 @@ def plot(numbers, labels, classes):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='')
+    parser.add_argument('-imagesworkingdir', type=str, help="el directorio donde estan las imagenes", required = True)
     parser.add_argument('--squarerootnormalization', action="store_true")
     parser.add_argument('--tsne', action="store_true")
     args = parser.parse_args()
@@ -150,8 +151,8 @@ if __name__ == '__main__':
             x.append(test['features'][i])
             labels.append(test['labels'][i])
         tsne = TSNE().fit_transform(x)
-        classes = get_classes('../trabajo')
+        classes = get_classes(parser.imagesworkingdir)
         plot(tsne, labels, classes)
     else:
-        calcula_distancia_a_todas_las_imagenes(test, training_data, args.squarerootnormalization)
+        calcula_distancia_a_todas_las_imagenes(test, training_data, args.squarerootnormalization, args.imagesworkingdir)
 
