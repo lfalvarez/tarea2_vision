@@ -1,5 +1,29 @@
 Para esta tarea hicimos lo siguiente:
 =======================
+## Para ejecutar
+
+Hay que instalar las librerías que estan en requirements.txt y se hace así
+```
+pip install -r requirements.txt
+```
+Y para ejecutar la tarea uno le dice:
+
+```
+python tarea2.py -imagesworkingdir ~/Workspace/computer_vision/trabajo
+```
+
+Ahí el directorio donde están las imagenes.
+
+Para ejecutarla con normalización uno le pone un parametro extra y queda así:
+
+```
+python tarea2.py -imagesworkingdir ~/Workspace/computer_vision/trabajo --squarerootnormalization
+```
+
+Y para sacar el T-SNE uno le dice:
+```
+python tarea2.py --tsne
+```
 
 ## Carga de las features
 Extrajimos las features de cada foto utilizando la CNN, como sale en el enunciado, las features las dejamos en dos
