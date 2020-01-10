@@ -7,17 +7,20 @@ import os
 import argparse
 import pandas as pd
 
+def norm(data):
+    sign = np.sign(data)
+    data = sign * np.sqrt(np.abs(data))
+    data = data/np.linalg.norm(data)
+    return data
 
 def leer_features_y_labels_desde_dir(dir, squarerootnormalization):
     ## Devuelve las features, labels y nombres de archivo leidos desde un directorio dado.
     ## Recibe un parametro booleano que indica si haremos squarerootnormalization o no.
     features = np.fromfile('{dir}/features.des'.format(dir=dir), dtype=np.int32)[3:]
-    if squarerootnormalization:
-        sign = np.sign(features)
-        features = sign * np.sqrt(np.abs(features))
-        features = features/np.linalg.norm(features)
     first_dim = int(len(features) / 1024)
     features = np.reshape(features, (first_dim, 1024))
+    if squarerootnormalization:
+        features = np.apply_along_axis(norm, 1, features)
     labels = np.fromfile('{dir}/labels.npy'.format(dir=dir), dtype=np.int32)
     with open('{dir}/names.txt'.format(dir=dir)) as f:
         names = f.readlines()
@@ -114,7 +117,7 @@ def calcula_distancia_a_todas_las_imagenes(test, training_data, squarerootnormal
             ## elementos relevantes.
             AP = AP / relevant_counter
             sum_of_aps += AP
-        imprimir_imagenes(distances, filename, i, relevant_counter, squarerootnormalization, imagesworkingdir)
+        ##imprimir_imagenes(distances, filename, i, relevant_counter, squarerootnormalization, imagesworkingdir)
     mAP = (sum_of_aps / len(test['features']))
     if squarerootnormalization:
         print("Con normalización")
