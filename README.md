@@ -76,7 +76,7 @@ Estas imagenes se ven así:
 ## El cálculo del mAP
 
 El mAP nos resultó en:
-- Con normalización el mAP es:  0.40358884316998356
+- Con normalización el mAP es:  0.4417857351242963
 - Sin normalización el mAP es:  0.45194464248971516
 
 Esto contrasta con la tarea1 donde calculamos el mAP con HOG y allí tuvimos un mAP de ~0.35.
